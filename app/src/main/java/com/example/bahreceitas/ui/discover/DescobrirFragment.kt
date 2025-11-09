@@ -48,8 +48,6 @@ class DescobrirFragment : Fragment() {
         viewModel.receita.observe(viewLifecycleOwner) { receita ->
             receita?.let {
                 binding.cardReceita.visibility = View.VISIBLE
-                binding.btnNovaReceita.visibility = View.VISIBLE
-                binding.fabFavorito.visibility = View.VISIBLE
                 binding.mensagemErro.visibility = View.GONE
 
                 binding.nomeReceita.text = it.nome
@@ -71,8 +69,6 @@ class DescobrirFragment : Fragment() {
             erro?.let {
                 binding.mensagemErro.visibility = View.VISIBLE
                 binding.cardReceita.visibility = View.GONE
-                binding.btnNovaReceita.visibility = View.GONE
-                binding.fabFavorito.visibility = View.GONE
             }
         }
 

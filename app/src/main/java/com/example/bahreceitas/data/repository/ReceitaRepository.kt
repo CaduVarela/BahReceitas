@@ -32,11 +32,10 @@ class ReceitaRepository(
 
     suspend fun getReceitaAleatoria(): Result<Receita> {
         return try {
-            val paginaAleatoria = (1..5).random()
-            val resposta = apiService.getReceitas(page = paginaAleatoria, limit = 10)
+            val resposta = apiService.getReceitaAleatoria()
             val receitas = resposta.receitas?.map { it.toReceita() } ?: emptyList()
             if (receitas.isNotEmpty()) {
-                Result.success(receitas.random())
+                Result.success(receitas.first())
             } else {
                 Result.failure(Exception("Nenhuma receita encontrada"))
             }

@@ -7,18 +7,12 @@ import retrofit2.http.Query
 
 interface MealApiService {
 
-    @GET("receitas/todas")
-    suspend fun getReceitas(
-        @Query("page") page: Int = 1,
-        @Query("limit") limit: Int = 20
-    ): RespostaReceitas
+    @GET("random.php")
+    suspend fun getReceitaAleatoria(): RespostaReceitas
 
-    @GET("receitas/descricao")
-    suspend fun buscarReceitas(@Query("descricao") termo: String): RespostaReceitas
+    @GET("search.php")
+    suspend fun buscarReceitas(@Query("s") termo: String): RespostaReceitas
 
-    @GET("receitas/{id}")
-    suspend fun getReceitaPorId(@Path("id") id: String): RespostaReceitas
-
-    @GET("receitas/tipo/{tipo}")
-    suspend fun getReceitasPorTipo(@Path("tipo") tipo: String): RespostaReceitas
+    @GET("lookup.php")
+    suspend fun getReceitaPorId(@Query("i") id: String): RespostaReceitas
 }

@@ -77,13 +77,6 @@
             app:layout_constraintTop_toTopOf="@id/chipCategoria"
             tools:text="Região" />
 
-        <TextView
-            android:id="@+id/categoriaReceita"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            tools:text="Categoria" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_descobrir"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title="@string/descobrir" />
+
+    <item
+        android:id="@+id/nav_buscar"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/buscar" />
+
+    <item
+        android:id="@+id/nav_favoritos"
+        android:icon="@android:drawable/star_big_on"
+        android:title="@string/favoritos" />
+
+    <item
+        android:id="@+id/nav_configuracoes"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/configuracoes" />
+</menu>

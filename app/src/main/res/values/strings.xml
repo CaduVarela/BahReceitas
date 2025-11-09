@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">BahReceitas</string>
+
+    <string name="descobrir">Descobrir</string>
+    <string name="buscar">Buscar</string>
+    <string name="favoritos">Favoritos</string>
+    <string name="configuracoes">Configurações</string>
+
+    <string name="receita_do_dia">Receita do Dia</string>
+    <string name="nova_receita">Nova Receita</string>
+    <string name="ingredientes">Ingredientes</string>
+    <string name="modo_preparo">Modo de Preparo</string>
+    <string name="categoria">Categoria</string>
+    <string name="regiao">Região</string>
+
+    <string name="buscar_receitas">Buscar receitas...</string>
+    <string name="nenhuma_receita_encontrada">Nenhuma receita encontrada</string>
+    <string name="erro_carregar_receita">Erro ao carregar receita</string>
+    <string name="nenhum_favorito">Você ainda não tem favoritos</string>
+
+    <string name="adicionar_favoritos">Adicionar aos favoritos</string>
+    <string name="remover_favoritos">Remover dos favoritos</string>
+    <string name="adicionado_favoritos">Adicionado aos favoritos</string>
+    <string name="removido_favoritos">Removido dos favoritos</string>
+
+    <string name="tema">Tema</string>
+    <string name="tema_claro">Claro</string>
+    <string name="tema_escuro">Escuro</string>
+    <string name="tema_sistema">Sistema</string>
+
+    <string name="exportar_favoritos">Exportar Favoritos</string>
+    <string name="importar_favoritos">Importar Favoritos</string>
+    <string name="favoritos_exportados">Favoritos exportados com sucesso</string>
+    <string name="favoritos_importados">Favoritos importados com sucesso</string>
+    <string name="erro_exportar">Erro ao exportar favoritos</string>
+    <string name="erro_importar">Erro ao importar favoritos</string>
+
+    <string name="habilitar_receita_dia">Mostrar receita do dia</string>
+    <string name="versao">Versão</string>
+</resources>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_descobrir">
+
+    <fragment
+        android:id="@+id/nav_descobrir"
+        android:name="com.example.bahreceitas.ui.discover.DescobrirFragment"
+        android:label="@string/descobrir">
+        <action
+            android:id="@+id/action_descobrir_to_detalhes"
+            app:destination="@id/detalhesReceitaFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_buscar"
+        android:name="com.example.bahreceitas.ui.search.BuscarFragment"
+        android:label="@string/buscar">
+        <action
+            android:id="@+id/action_buscar_to_detalhes"
+            app:destination="@id/detalhesReceitaFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_favoritos"
+        android:name="com.example.bahreceitas.ui.favorites.FavoritosFragment"
+        android:label="@string/favoritos">
+        <action
+            android:id="@+id/action_favoritos_to_detalhes"
+            app:destination="@id/detalhesReceitaFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_configuracoes"
+        android:name="com.example.bahreceitas.ui.settings.ConfiguracoesFragment"
+        android:label="@string/configuracoes" />
+
+    <fragment
+        android:id="@+id/detalhesReceitaFragment"
+        android:name="com.example.bahreceitas.ui.details.DetalhesReceitaFragment"
+        android:label="Detalhes">
+        <argument
+            android:name="receita"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

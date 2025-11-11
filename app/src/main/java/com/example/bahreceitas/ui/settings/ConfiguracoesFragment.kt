@@ -27,18 +27,11 @@ class ConfiguracoesFragment : Fragment() {
     private val exportLauncher = registerForActivityResult(
         ActivityResultContracts.CreateDocument("application/json")
     ) { uri ->
-        uri?.let {
-            try {
-                val json = viewModel.exportarFavoritos()
-                requireContext().contentResolver.openOutputStream(it)?.use { output ->
-                    output.write(json.toByteArray())
-                }
-                Toast.makeText(requireContext(), R.string.favoritos_exportados, Toast.LENGTH_SHORT).show()
-            } catch (e: Exception) {
-                Toast.makeText(requireContext(), R.string.erro_exportar, Toast.LENGTH_SHORT).show()
-            }
-        }
+        exportUri = uri
+        viewModel.exportarFavoritos()
     }
+
+    private var exportUri: android.net.Uri? = null
 
     private val importLauncher = registerForActivityResult(
         ActivityResultContracts.OpenDocument()
@@ -47,8 +40,10 @@ class ConfiguracoesFragment : Fragment() {
             try {
                 val json = requireContext().contentResolver.openInputStream(it)?.bufferedReader()
                     ?.use { reader -> reader.readText() }
-                json?.let { content ->
-                    viewModel.importarFavoritos(content)
+                if (json != null && json.isNotEmpty()) {
+                    viewModel.importarFavoritos(json)
+                } else {
+                    Toast.makeText(requireContext(), R.string.erro_importar, Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), R.string.erro_importar, Toast.LENGTH_SHORT).show()
@@ -112,6 +107,24 @@ class ConfiguracoesFragment : Fragment() {
         viewModel.mensagem.observe(viewLifecycleOwner) { mensagem ->
             mensagem?.let {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewModel.exportJson.observe(viewLifecycleOwner) { json ->
+            exportUri?.let { uri ->
+                try {
+                    if (json.isNotEmpty() && json != "[]") {
+                        requireContext().contentResolver.openOutputStream(uri)?.use { output ->
+                            output.write(json.toByteArray())
+                        }
+                        Toast.makeText(requireContext(), R.string.favoritos_exportados, Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), R.string.nenhum_favorito, Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), R.string.erro_exportar, Toast.LENGTH_SHORT).show()
+                }
+                exportUri = null
             }
         }
     }

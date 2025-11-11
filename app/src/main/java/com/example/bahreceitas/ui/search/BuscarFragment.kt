@@ -23,6 +23,10 @@ class BuscarFragment : Fragment() {
     private lateinit var viewModel: BuscarViewModel
     private lateinit var adapter: ReceitaAdapter
 
+    companion object {
+        private var sharedViewModel: BuscarViewModel? = null
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,9 +39,12 @@ class BuscarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val database = AppDatabase.getDatabase(requireContext())
-        val repository = ReceitaRepository(database.receitaDao(), RetrofitInstance.api)
-        viewModel = BuscarViewModel(repository)
+        if (sharedViewModel == null) {
+            val database = AppDatabase.getDatabase(requireContext())
+            val repository = ReceitaRepository(database.receitaDao(), RetrofitInstance.api)
+            sharedViewModel = BuscarViewModel(repository)
+        }
+        viewModel = sharedViewModel!!
 
         setupRecyclerView()
         setupSearchView()

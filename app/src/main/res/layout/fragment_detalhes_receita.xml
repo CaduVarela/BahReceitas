@@ -77,7 +77,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
-                        android:textColor="@color/text_primary"
+                        android:textColor="@android:color/white"
                         app:chipBackgroundColor="@color/chip_background"
                         tools:text="Categoria" />
 
@@ -85,7 +85,7 @@
                         android:id="@+id/chipRegiao"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/text_primary"
+                        android:textColor="@android:color/white"
                         app:chipBackgroundColor="@color/chip_background"
                         tools:text="Região" />
 

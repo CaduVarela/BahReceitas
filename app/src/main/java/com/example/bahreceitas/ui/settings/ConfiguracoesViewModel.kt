@@ -38,12 +38,16 @@ class ConfiguracoesViewModel(
         viewModelScope.launch {
             try {
                 val lista = Gson().fromJson(json, Array<com.example.bahreceitas.data.model.Receita>::class.java)
-                lista.forEach { receita ->
-                    repository.adicionarFavorita(receita)
+                if (lista.isNotEmpty()) {
+                    lista.forEach { receita ->
+                        repository.adicionarFavorita(receita)
+                    }
+                    _mensagem.value = "Favoritos importados com sucesso"
+                } else {
+                    _mensagem.value = "Nenhum favorito encontrado no arquivo"
                 }
-                _mensagem.value = "Favoritos importados com sucesso"
             } catch (e: Exception) {
-                _mensagem.value = "Erro ao importar favoritos"
+                _mensagem.value = "Erro ao importar favoritos: ${e.message}"
             }
         }
     }

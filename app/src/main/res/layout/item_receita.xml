@@ -61,7 +61,7 @@
             android:layout_marginTop="4dp"
             style="@style/Widget.Material3.Chip.Suggestion"
             android:textSize="11sp"
-            android:textColor="@color/text_primary"
+            android:textColor="@android:color/white"
             app:chipBackgroundColor="@color/chip_background"
             app:chipMinHeight="24dp"
             app:layout_constraintStart_toStartOf="@id/nomeReceita"

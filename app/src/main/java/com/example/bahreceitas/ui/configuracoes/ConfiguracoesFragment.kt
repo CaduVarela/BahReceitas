@@ -1,4 +1,4 @@
-package com.example.bahreceitas.ui.settings
+package com.example.bahreceitas.ui.configuracoes
 
 import android.content.Intent
 import android.os.Bundle

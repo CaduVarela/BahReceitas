@@ -1,4 +1,4 @@
-package com.example.bahreceitas.ui.discover
+package com.example.bahreceitas.ui.descobrir
 
 import android.os.Bundle
 import android.view.LayoutInflater

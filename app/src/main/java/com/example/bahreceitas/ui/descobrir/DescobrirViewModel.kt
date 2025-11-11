@@ -1,4 +1,4 @@
-package com.example.bahreceitas.ui.discover
+package com.example.bahreceitas.ui.descobrir
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.example.bahreceitas.ui.details
+package com.example.bahreceitas.ui.detalhes
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

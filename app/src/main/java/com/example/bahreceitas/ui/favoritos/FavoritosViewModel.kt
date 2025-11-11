@@ -1,4 +1,4 @@
-package com.example.bahreceitas.ui.favorites
+package com.example.bahreceitas.ui.favoritos
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

@@ -1,4 +1,4 @@
-package com.example.bahreceitas.ui.search
+package com.example.bahreceitas.ui.buscar
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.example.bahreceitas.ui.settings
+package com.example.bahreceitas.ui.configuracoes
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

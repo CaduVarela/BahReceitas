@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bahreceitas.data.model.Receita
 import com.example.bahreceitas.data.repository.ReceitaRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class DescobrirViewModel(private val repository: ReceitaRepository) : ViewModel() {
@@ -21,8 +19,8 @@ class DescobrirViewModel(private val repository: ReceitaRepository) : ViewModel(
     private val _erro = MutableLiveData<String?>()
     val erro: LiveData<String?> = _erro
 
-    private val _isFavorita = MutableStateFlow(false)
-    val isFavorita: StateFlow<Boolean> = _isFavorita
+    private val _isFavorita = MutableLiveData<Boolean>()
+    val isFavorita: LiveData<Boolean> = _isFavorita
 
     fun carregarReceitaAleatoria() {
         viewModelScope.launch {
@@ -54,7 +52,7 @@ class DescobrirViewModel(private val repository: ReceitaRepository) : ViewModel(
         val receitaAtual = _receita.value ?: return
 
         viewModelScope.launch {
-            if (_isFavorita.value) {
+            if (_isFavorita.value == true) {
                 repository.removerFavorita(receitaAtual)
             } else {
                 repository.adicionarFavorita(receitaAtual)

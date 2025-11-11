@@ -2,6 +2,7 @@ package com.example.bahreceitas.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatDelegate
 
 class PreferencesManager(context: Context) {
 
@@ -16,12 +17,14 @@ class PreferencesManager(context: Context) {
         return prefs.getString(KEY_TEMA, TEMA_SISTEMA) ?: TEMA_SISTEMA
     }
 
-    fun setReceitaDoDiaHabilitada(habilitada: Boolean) {
-        prefs.edit().putBoolean(KEY_RECEITA_DIA, habilitada).apply()
-    }
-
-    fun isReceitaDoDiaHabilitada(): Boolean {
-        return prefs.getBoolean(KEY_RECEITA_DIA, true)
+    fun aplicarTema() {
+        val tema = getTema()
+        val modo = when (tema) {
+            TEMA_CLARO -> AppCompatDelegate.MODE_NIGHT_NO
+            TEMA_ESCURO -> AppCompatDelegate.MODE_NIGHT_YES
+            else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        }
+        AppCompatDelegate.setDefaultNightMode(modo)
     }
 
     fun setUltimaBusca(termo: String) {
@@ -34,7 +37,6 @@ class PreferencesManager(context: Context) {
 
     companion object {
         private const val KEY_TEMA = "tema"
-        private const val KEY_RECEITA_DIA = "receita_do_dia"
         private const val KEY_ULTIMA_BUSCA = "ultima_busca"
 
         const val TEMA_CLARO = "claro"

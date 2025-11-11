@@ -6,14 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.example.bahreceitas.R
 import com.example.bahreceitas.data.local.AppDatabase
 import com.example.bahreceitas.data.repository.ReceitaRepository
 import com.example.bahreceitas.databinding.FragmentDescobrirBinding
 import com.example.bahreceitas.network.RetrofitInstance
-import kotlinx.coroutines.launch
 
 class DescobrirFragment : Fragment() {
 
@@ -21,6 +19,10 @@ class DescobrirFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: DescobrirViewModel
+
+    companion object {
+        private var sharedViewModel: DescobrirViewModel? = null
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,14 +36,19 @@ class DescobrirFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val database = AppDatabase.getDatabase(requireContext())
-        val repository = ReceitaRepository(database.receitaDao(), RetrofitInstance.api)
-        viewModel = DescobrirViewModel(repository)
+        if (sharedViewModel == null) {
+            val database = AppDatabase.getDatabase(requireContext())
+            val repository = ReceitaRepository(database.receitaDao(), RetrofitInstance.api)
+            sharedViewModel = DescobrirViewModel(repository)
+        }
+        viewModel = sharedViewModel!!
 
         setupObservers()
         setupListeners()
 
-        viewModel.carregarReceitaAleatoria()
+        if (viewModel.receita.value == null) {
+            viewModel.carregarReceitaAleatoria()
+        }
     }
 
     private fun setupObservers() {
@@ -72,15 +79,13 @@ class DescobrirFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
-            viewModel.isFavorita.collect { favorita ->
-                val icone = if (favorita) {
-                    android.R.drawable.star_big_on
-                } else {
-                    android.R.drawable.star_big_off
-                }
-                binding.fabFavorito.setImageResource(icone)
+        viewModel.isFavorita.observe(viewLifecycleOwner) { favorita ->
+            val icone = if (favorita) {
+                R.drawable.ic_star_filled
+            } else {
+                R.drawable.ic_star_outline
             }
+            binding.fabFavorito.setImageResource(icone)
         }
     }
 
@@ -90,8 +95,9 @@ class DescobrirFragment : Fragment() {
         }
 
         binding.fabFavorito.setOnClickListener {
+            val isFav = viewModel.isFavorita.value == true
             viewModel.alternarFavorito()
-            val mensagem = if (viewModel.isFavorita.value) {
+            val mensagem = if (isFav) {
                 getString(R.string.removido_favoritos)
             } else {
                 getString(R.string.adicionado_favoritos)

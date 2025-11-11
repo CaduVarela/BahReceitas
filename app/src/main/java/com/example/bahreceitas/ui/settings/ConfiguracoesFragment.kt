@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.bahreceitas.BuildConfig
 import com.example.bahreceitas.R
@@ -87,8 +86,6 @@ class ConfiguracoesFragment : Fragment() {
             PreferencesManager.TEMA_ESCURO -> binding.radioTemaEscuro.isChecked = true
             PreferencesManager.TEMA_SISTEMA -> binding.radioTemaSistema.isChecked = true
         }
-
-        binding.switchReceitaDia.isChecked = viewModel.isReceitaDoDiaHabilitada()
     }
 
     private fun setupListeners() {
@@ -99,11 +96,7 @@ class ConfiguracoesFragment : Fragment() {
                 else -> PreferencesManager.TEMA_SISTEMA
             }
             viewModel.setTema(tema)
-            aplicarTema(tema)
-        }
-
-        binding.switchReceitaDia.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.setReceitaDoDiaHabilitada(isChecked)
+            prefsManager.aplicarTema()
         }
 
         binding.btnExportar.setOnClickListener {
@@ -121,15 +114,6 @@ class ConfiguracoesFragment : Fragment() {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun aplicarTema(tema: String) {
-        val modo = when (tema) {
-            PreferencesManager.TEMA_CLARO -> AppCompatDelegate.MODE_NIGHT_NO
-            PreferencesManager.TEMA_ESCURO -> AppCompatDelegate.MODE_NIGHT_YES
-            else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-        }
-        AppCompatDelegate.setDefaultNightMode(modo)
     }
 
     override fun onDestroyView() {

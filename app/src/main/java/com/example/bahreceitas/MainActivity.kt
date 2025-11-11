@@ -2,7 +2,6 @@ package com.example.bahreceitas
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.bahreceitas.databinding.ActivityMainBinding
@@ -15,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        aplicarTema()
+        PreferencesManager(this).aplicarTema()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -29,18 +28,5 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         binding.bottomNavigation.setupWithNavController(navController)
-    }
-
-    private fun aplicarTema() {
-        val prefsManager = PreferencesManager(this)
-        val tema = prefsManager.getTema()
-
-        val modo = when (tema) {
-            PreferencesManager.TEMA_CLARO -> AppCompatDelegate.MODE_NIGHT_NO
-            PreferencesManager.TEMA_ESCURO -> AppCompatDelegate.MODE_NIGHT_YES
-            else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-        }
-
-        AppCompatDelegate.setDefaultNightMode(modo)
     }
 }

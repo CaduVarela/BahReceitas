@@ -1,10 +1,10 @@
 # BahReceitas 🍳
 
-App Android de receitas brasileiras desenvolvido em Kotlin.
+App Android de receitas desenvolvido em Kotlin.
 
 ## 📱 Sobre o App
 
-Aplicativo de receitas que consome uma API brasileira, permitindo descobrir, buscar e favoritar receitas.
+Aplicativo de receitas que consome uma API de receitas internacionais, permitindo descobrir, buscar e favoritar receitas.
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -29,10 +29,10 @@ Aplicativo de receitas que consome uma API brasileira, permitindo descobrir, bus
 
 ## 🌐 API
 
-Utiliza a [API de Receitas Brasileiras](https://github.com/DenilsonRabelo/API-Receitas)
-- Base URL: `https://api-receitas-pi.vercel.app/`
-- 93 receitas em português
-- Categorias: Doce, Salgado, Agridoce
+Utiliza a [TheMealDB](https://www.themealdb.com/api.php)
+- Base URL: `https://www.themealdb.com/api/json/v1/1/`
+- API gratuita de receitas internacionais
+- Categorias diversas de culinária mundial
 
 ## 📦 Requisitos
 

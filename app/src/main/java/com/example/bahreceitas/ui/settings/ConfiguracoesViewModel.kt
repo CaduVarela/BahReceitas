@@ -29,14 +29,6 @@ class ConfiguracoesViewModel(
         prefsManager.setTema(tema)
     }
 
-    fun isReceitaDoDiaHabilitada(): Boolean {
-        return prefsManager.isReceitaDoDiaHabilitada()
-    }
-
-    fun setReceitaDoDiaHabilitada(habilitada: Boolean) {
-        prefsManager.setReceitaDoDiaHabilitada(habilitada)
-    }
-
     fun exportarFavoritos(): String {
         val lista = favoritas.value ?: emptyList()
         return Gson().toJson(lista)
@@ -45,9 +37,9 @@ class ConfiguracoesViewModel(
     fun importarFavoritos(json: String) {
         viewModelScope.launch {
             try {
-                val lista = Gson().fromJson(json, Array<ReceitaEntity>::class.java)
-                lista.forEach { entity ->
-                    repository.adicionarFavorita(entity.toReceita())
+                val lista = Gson().fromJson(json, Array<com.example.bahreceitas.data.model.Receita>::class.java)
+                lista.forEach { receita ->
+                    repository.adicionarFavorita(receita)
                 }
                 _mensagem.value = "Favoritos importados com sucesso"
             } catch (e: Exception) {

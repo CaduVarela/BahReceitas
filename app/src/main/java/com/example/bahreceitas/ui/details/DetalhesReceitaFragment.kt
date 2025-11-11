@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.example.bahreceitas.R
 import com.example.bahreceitas.data.local.AppDatabase
@@ -15,16 +14,13 @@ import com.example.bahreceitas.data.repository.ReceitaRepository
 import com.example.bahreceitas.databinding.FragmentDetalhesReceitaBinding
 import com.example.bahreceitas.network.RetrofitInstance
 import com.google.gson.Gson
-import kotlinx.coroutines.launch
 
 class DetalhesReceitaFragment : Fragment() {
 
     private var _binding: FragmentDetalhesReceitaBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var repository: ReceitaRepository
-    private var receitaAtual: Receita? = null
-    private var isFavorita = false
+    private lateinit var viewModel: DetalhesReceitaViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,59 +35,54 @@ class DetalhesReceitaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val database = AppDatabase.getDatabase(requireContext())
-        repository = ReceitaRepository(database.receitaDao(), RetrofitInstance.api)
+        val repository = ReceitaRepository(database.receitaDao(), RetrofitInstance.api)
+        viewModel = DetalhesReceitaViewModel(repository)
 
         val receitaJson = arguments?.getString("receita")
         receitaJson?.let {
-            receitaAtual = Gson().fromJson(it, Receita::class.java)
-            exibirReceita(receitaAtual!!)
+            val receita = Gson().fromJson(it, Receita::class.java)
+            viewModel.setReceita(receita)
         }
 
+        setupObservers()
         setupListeners()
     }
 
-    private fun exibirReceita(receita: Receita) {
-        binding.nomeReceita.text = receita.nome
-        binding.chipCategoria.text = receita.categoria
-        binding.chipRegiao.text = receita.regiao
-        binding.ingredientesReceita.text = receita.ingredientes
-        binding.instrucoesReceita.text = formatarInstrucoes(receita.instrucoes)
-        binding.imagemReceita.load(receita.imagemUrl) {
-            crossfade(true)
-        }
-
-        lifecycleScope.launch {
-            repository.isFavorita(receita.id).collect { favorita ->
-                isFavorita = favorita
-                val icone = if (favorita) {
-                    android.R.drawable.star_big_on
-                } else {
-                    android.R.drawable.star_big_off
-                }
-                binding.fabFavorito.setImageResource(icone)
+    private fun setupObservers() {
+        viewModel.receita.observe(viewLifecycleOwner) { receita ->
+            binding.nomeReceita.text = receita.nome
+            binding.chipCategoria.text = receita.categoria
+            binding.chipRegiao.text = receita.regiao
+            binding.ingredientesReceita.text = receita.ingredientes
+            binding.instrucoesReceita.text = viewModel.formatarInstrucoes(receita.instrucoes)
+            binding.imagemReceita.load(receita.imagemUrl) {
+                crossfade(true)
             }
         }
-    }
 
-    private fun formatarInstrucoes(texto: String): String {
-        return texto.replace(". ", ".\n\n")
-            .replace("\r\n", "\n")
-            .trim()
+        viewModel.isFavorita.observe(viewLifecycleOwner) { favorita ->
+            val icone = if (favorita) {
+                R.drawable.ic_star_filled
+            } else {
+                R.drawable.ic_star_outline
+            }
+            binding.fabFavorito.setImageResource(icone)
+        }
+
+        viewModel.mensagem.observe(viewLifecycleOwner) { mensagem ->
+            mensagem?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setupListeners() {
+        binding.fabVoltar.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         binding.fabFavorito.setOnClickListener {
-            receitaAtual?.let { receita ->
-                lifecycleScope.launch {
-                    if (isFavorita) {
-                        repository.removerFavorita(receita)
-                        Toast.makeText(requireContext(), R.string.removido_favoritos, Toast.LENGTH_SHORT).show()
-                    } else {
-                        repository.adicionarFavorita(receita)
-                        Toast.makeText(requireContext(), R.string.adicionado_favoritos, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
+            viewModel.toggleFavorito()
         }
     }
 
